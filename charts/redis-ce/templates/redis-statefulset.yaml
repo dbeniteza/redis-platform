@@ -51,6 +51,23 @@ spec:
           resources:
             {{- toYaml .Values.redis.resources | nindent 12 }}
 
+        - name: redis-exporter
+          image: "{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}"
+
+          ports:
+            - containerPort: 9121
+              name: metrics
+
+          env:
+            - name: REDIS_ADDR
+              value: redis://localhost:6379
+
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-auth
+                  key: password
+
   volumeClaimTemplates:
     - metadata:
         name: redis-data
