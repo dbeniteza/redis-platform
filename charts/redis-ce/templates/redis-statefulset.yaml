@@ -5,7 +5,7 @@ metadata:
 spec:
   serviceName: redis-headless
 
-  replicas: 3
+  replicas: {{ .Values.redis.replicas }}
 
   selector:
     matchLabels:
@@ -20,21 +20,27 @@ spec:
       containers:
         - name: redis
           image: redis:8
-          ports:
-            - containerPort: 6379
-          command:
-            - redis-server
-          args:
-            - "--appendonly"
-            - "yes"
-          #  - "--requirepass"
-          #  - "$(REDIS_PASSWORD)"
+
           env:
             - name: REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: redis-auth
                   key: password
+
+          ports:
+            - containerPort: 6379
+
+          command:
+            - /bin/sh
+            - -c
+
+          args:
+            - |
+              redis-server \
+              --appendonly yes \
+              --requirepass "$REDIS_PASSWORD"
+
           volumeMounts:
             - name: redis-data
               mountPath: /data

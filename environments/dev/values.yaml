@@ -2,6 +2,11 @@ environment: dev
 
 redis:
   replicas: 3
+
+  auth:
+    enabled: true
+    password: "ChangeMe123!"
+
   persistence:
     enabled: true
     size: 8Gi
