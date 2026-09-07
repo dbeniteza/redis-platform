@@ -1,0 +1,7 @@
+environment: dev
+
+redis:
+  replicas: 3
+
+sentinel:
+  enabled: true

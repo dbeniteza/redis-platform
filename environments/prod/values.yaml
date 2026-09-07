@@ -1,0 +1,7 @@
+environment: prod
+
+redis:
+  replicas: 3
+
+sentinel:
+  enabled: true
