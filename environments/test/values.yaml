@@ -3,5 +3,8 @@ environment: test
 redis:
   replicas: 3
 
+  persistence:
+    size: 20Gi
+
 sentinel:
   enabled: true

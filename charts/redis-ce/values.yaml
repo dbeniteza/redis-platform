@@ -2,6 +2,39 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+redis:
+
+  sentinel:
+    enabled: true
+
+  replicas: 3
+
+  image:
+    repository: redis
+    tag: "8"
+    pullPolicy: IfNotPresent
+
+  service:
+    port: 6379
+
+  persistence:
+    enabled: true
+    size: 8Gi
+
+  auth:
+    enabled: true
+    password: "ChangeMe123!"
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
 replicaCount: 1
 
@@ -50,11 +83,11 @@ securityContext: {}
   # runAsUser: 1000
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
-service:
-  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
-  type: ClusterIP
-  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 80
+# service:
+#   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+#   type: ClusterIP
+#   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+#   port: 80
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:

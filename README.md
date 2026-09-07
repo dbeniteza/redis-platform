@@ -19,7 +19,9 @@ Features:
 ## Architecture
 
 Master
+
 ├── Replica 1
+
 └── Replica 2
 
 Sentinel x3

@@ -3,5 +3,17 @@ environment: prod
 redis:
   replicas: 3
 
+  persistence:
+    size: 100Gi
+
+  resources:
+    requests:
+      cpu: 1
+      memory: 4Gi
+
+    limits:
+      cpu: 2
+      memory: 8Gi
+
 sentinel:
   enabled: true

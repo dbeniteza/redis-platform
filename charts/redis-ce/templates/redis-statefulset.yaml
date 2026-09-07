@@ -19,7 +19,8 @@ spec:
     spec:
       containers:
         - name: redis
-          image: redis:8
+          image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}"
+          imagePullPolicy: {{ .Values.redis.image.pullPolicy }}
 
           env:
             - name: REDIS_PASSWORD
@@ -29,7 +30,7 @@ spec:
                   key: password
 
           ports:
-            - containerPort: 6379
+            - containerPort: {{ .Values.redis.service.port }}
 
           command:
             - /bin/sh
@@ -39,11 +40,16 @@ spec:
             - |
               redis-server \
               --appendonly yes \
+              {{- if .Values.redis.auth.enabled }}
               --requirepass "$REDIS_PASSWORD"
+              {{- end }}
 
           volumeMounts:
             - name: redis-data
               mountPath: /data
+          
+          resources:
+            {{- toYaml .Values.redis.resources | nindent 12 }}
 
   volumeClaimTemplates:
     - metadata:
