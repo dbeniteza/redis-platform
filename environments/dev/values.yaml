@@ -2,6 +2,9 @@ environment: dev
 
 redis:
   replicas: 3
+  persistence:
+    enabled: true
+    size: 8Gi
 
 sentinel:
   enabled: true

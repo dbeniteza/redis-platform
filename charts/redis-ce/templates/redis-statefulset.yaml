@@ -18,10 +18,40 @@ spec:
 
     spec:
       containers:
+        - name: redis
+          image: redis:8
+          ports:
+            - containerPort: 6379
+          command:
+            - redis-server
+          args:
+            - "--appendonly"
+            - "yes"
+          #  - "--requirepass"
+          #  - "$(REDIS_PASSWORD)"
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-auth
+                  key: password
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
 
-      - name: redis
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.redis.persistence.size }}
 
-        image: redis:8
 
-        ports:
-        - containerPort: 6379
+
+
+
+
+
