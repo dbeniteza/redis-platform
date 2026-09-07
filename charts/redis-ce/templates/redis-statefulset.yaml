@@ -37,9 +37,9 @@ spec:
             - -c
 
           args:
-            - |
-              redis-server \
-              --appendonly yes \
+            - >
+              redis-server
+              --appendonly yes
               {{- if .Values.redis.auth.enabled }}
               --requirepass "$REDIS_PASSWORD"
               {{- end }}
